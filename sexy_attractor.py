@@ -126,17 +126,24 @@ def make_time(timestep):
 
 def finite_difference_ode(xin,f,params,nmax,deltat):
     """
-    ode numerical solver. should work like a dream on steroids.
+    ode numerical solver based on euler finite diff method.
 
-    xinit (np.array) is initial values: a position vector or whatever
-    f (function) is the function equal to d(xvec)/dt in the ODE
+    inputs:
+    xinit (np.array) is initial vector of dependent var.
+    f() is the function equal to d(xvec)/dt in the ODE
+    params (python list) is the parameters of f() 
     nmax (int) is the amount of ticks to run for
-    deltat (float) is the length of each discrete-time tick
+    deltat (float) is the duration of each loop tick
+
+    outputs:
+    the function returns a np.array "nmax*xvec(n)", i.e., a
+    value of the position vector for each loop tick n.
+    
     """
     
     def rota_fortunae(xvec,t,f,params,deltat):
         """
-        performs one timestep in the numerical ODE solution
+        performs one timestep.
         
         "So we see that even when Fortuna spins us downward,
         the wheel sometimes halts for a moment and we find ourselves
@@ -168,7 +175,7 @@ def finite_difference_ode(xin,f,params,nmax,deltat):
 
 def attractor(xinit=[1.0,1.0,1.0],deltat=0.01,nmax=10000,sigma=1.0,rho=1.0,beta=1.0,plotname="myplot.pdf"):
 
-    def plot_xlist(xlist,plotname,nmax):
+    def plot_xlist(xlist,nmax):
         xt=xlist[:,0]
         yt=xlist[:,1]
         zt=xlist[:,2]
@@ -192,7 +199,7 @@ def attractor(xinit=[1.0,1.0,1.0],deltat=0.01,nmax=10000,sigma=1.0,rho=1.0,beta=
     print("Parameters sigma,rho,beta: ",params)  
     print("End coordinate (x,y,z): ",xlist[nmax-1,:])
     
-    plot_xlist(xlist,plotname,nmax) # make plot
+    plot_xlist(xlist,nmax) # make plot
     plt.savefig(plotname) # save to pdf
 
 if __name__ == "__main__":
